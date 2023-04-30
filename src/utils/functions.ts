@@ -1,5 +1,6 @@
 import { web3 } from '..'
 import * as fs from 'fs'
+
 import { Level, Player, State, Option, Treasure, Battle } from '../types/types'
 import {
   StatesTypes,
@@ -8,6 +9,8 @@ import {
   treasureEncodeTypes,
 } from '../utils/enums'
 import { isBattle, isLevel, isTreasure } from './guards'
+
+import weapons from '../data/weapons.json'
 
 export const deployContract = async (
   name: string,
@@ -82,4 +85,19 @@ export const createState = (
 export function stringToBytes32(text: string): string {
   const hex = web3.utils.utf8ToHex(text)
   return web3.utils.padRight(hex, 64)
+}
+
+export function createTreasure(mimic: boolean): Treasure {
+  const randomIndex = Math.floor(Math.random() * weapons.length)
+
+  if (mimic) {
+    if (Math.random() > 0.1) {
+      mimic = false
+    }
+  }
+
+  return {
+    isMimic: mimic,
+    weapon: weapons[randomIndex],
+  }
 }

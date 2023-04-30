@@ -7,6 +7,7 @@ import { Level, Player } from '../../types/types'
 import { OptionTypes, StatesTypes } from '../../utils/enums'
 import {
   createState,
+  createTreasure,
   encodeOption,
   stringToBytes32,
 } from '../../utils/functions'
@@ -30,15 +31,12 @@ export default class TreasureState implements State {
     const artifactData = JSON.parse(artifact)
     const abi = artifactData.abi
 
-    const objeto = {
-      weapon: { name: 'sword', damage: 10, range: 2 },
-      isMimic: false,
-    }
+    const treasure = createTreasure(level.name === 'home' ? false : true)
 
     const state = createState(this.state, this.player, this.level, [
       {
         optionType: OptionTypes.Treasure,
-        data: encodeOption(objeto),
+        data: encodeOption(treasure),
         option: stringToBytes32('Treasure'),
       },
       {

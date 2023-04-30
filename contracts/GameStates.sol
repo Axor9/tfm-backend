@@ -24,8 +24,11 @@ contract GameStates {
         currentState.player = newState.player;
         currentState.level = newState.level;
         Utils.copyOptions(currentState, newState.options);
+
+        //Open new voting with state options
         currentVoting = new Voting(Utils.getOptionValues(currentState.options));
         currentState.voting = address(currentVoting);
+
         states.push(currentState);
     }
 
@@ -34,6 +37,7 @@ contract GameStates {
         currentVoting.closeVoting();
         address[] memory addressVoted = currentVoting.getAddressHasVoted();
 
+        //Saves the addresses that have participated in the vote
         for (uint i = 0; i < addressVoted.length; i++) {
             addressPlayed[addressVoted[i]] += currentVoting
                 .getAddressVotedAmount(addressVoted[i]);
