@@ -1,0 +1,32 @@
+[
+    {
+        "name": "ogre",
+        "health": 100,
+        "damage": 10
+    },
+    {
+        "name": "bat",
+        "health": 50,
+        "damage": 5
+    },
+    {
+        "name": "troll",
+        "health": 200,
+        "damage": 20
+    },
+    {
+        "name": "skeleton",
+        "health": 25,
+        "damage": 2
+    },
+    {
+        "name": "dragon",
+        "health": 500,
+        "damage": 50
+    },
+    {
+        "name": "mimic",
+        "health": 20,
+        "damage": 100
+    }
+]

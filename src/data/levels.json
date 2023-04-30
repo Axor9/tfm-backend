@@ -1,0 +1,14 @@
+[
+    {
+        "name": "swamp",
+        "enemies": ["troll", "skeleton"]
+    },
+    {
+        "name": "forest",
+        "enemies": ["ogre"]
+    },
+    {
+        "name": "cave",
+        "enemies": ["bat"]
+    }
+]

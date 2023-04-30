@@ -1,0 +1,17 @@
+[
+    {
+        "name": "sword",
+        "damage": 20,
+        "range": 3
+    },
+    {
+        "name": "bow",
+        "damage": 10,
+        "range": 10
+    },
+    {
+        "name": "dagger",
+        "damage": 15,
+        "range": 1
+    }
+]
