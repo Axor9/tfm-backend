@@ -1,6 +1,5 @@
 import dotenv from 'dotenv'
 import { web3 } from '../../'
-import fs from 'fs'
 
 import { State, AvailableStates } from '../types'
 import { Level, Player } from '../../types/types'
@@ -11,6 +10,7 @@ import {
   encodeOption,
   stringToBytes32,
 } from '../../utils/functions'
+import { getContractInstance } from '../../utils/contract'
 
 dotenv.config()
 
@@ -24,12 +24,6 @@ export default class TreasureState implements State {
     this.state = StatesTypes.Treasure
     this.level = level
     this.player = player
-
-    const artifact = fs.readFileSync('build/contracts/GameStates.json', {
-      encoding: 'utf-8',
-    })
-    const artifactData = JSON.parse(artifact)
-    const abi = artifactData.abi
 
     const treasure = createTreasure(level.name === 'home' ? false : true)
 
@@ -46,7 +40,7 @@ export default class TreasureState implements State {
       },
     ])
 
-    const gameInstance = new web3.eth.Contract(abi, address)
+    const gameInstance = getContractInstance('GameStates', address)
 
     gameInstance.methods
       .changeState(state)
@@ -63,13 +57,7 @@ export default class TreasureState implements State {
   }
 
   onLeave(address: string) {
-    const artifact = fs.readFileSync('build/contracts/GameStates.json', {
-      encoding: 'utf-8',
-    })
-    const artifactData = JSON.parse(artifact)
-    const abi = artifactData.abi
-
-    const gameInstance = new web3.eth.Contract(abi, address)
+    const gameInstance = getContractInstance('GameStates', address)
     gameInstance.methods
       .closeVoting()
       .send({ from: process.env.FROM_ADDRESS ?? '' })

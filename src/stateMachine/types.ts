@@ -1,5 +1,6 @@
 import { Level, Player } from '../types/types'
 import { StatesTypes } from '../utils/enums'
+import { State as StateType } from '../types/types'
 
 export type AvailableStates = keyof typeof StatesTypes
 
@@ -16,5 +17,6 @@ export type State = {
 export type StateMachine = {
   init(): void
   changeState(): void
-  getCurrentState(): void
+  getCurrentState(): Promise<StateType>
+  getStates(): Promise<StateType[]>
 }

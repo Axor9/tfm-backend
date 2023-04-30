@@ -1,5 +1,4 @@
 import { web3 } from '..'
-import * as fs from 'fs'
 
 import { Level, Player, State, Option, Treasure, Battle } from '../types/types'
 import {
@@ -12,43 +11,16 @@ import { isBattle, isLevel, isTreasure } from './guards'
 
 import weapons from '../data/weapons.json'
 
-export const deployContract = async (
-  name: string,
-  from: string,
-  params?: any[],
-  libraryAddress?: string
-) => {
-  const artifactsPath = `build/contracts/${name}.json`
+export const getOptionLevels = (levels: Level[]) => {
+  const randomIndexes: number[] = []
+  while (randomIndexes.length < 3) {
+    const randomIndex = Math.floor(Math.random() * levels.length)
+    if (!randomIndexes.includes(randomIndex)) {
+      randomIndexes.push(randomIndex)
+    }
+  }
 
-  const artifact = fs.readFileSync(artifactsPath, { encoding: 'utf-8' })
-  const artifactData = JSON.parse(artifact)
-
-  const abi = artifactData.abi
-  let bytecode = artifactData.bytecode
-
-  if (libraryAddress)
-    bytecode = bytecode.replace(/_.*_/, libraryAddress.replace('0x', ''))
-
-  const contract = new web3.eth.Contract(abi)
-  const gas = await contract
-    .deploy({
-      data: bytecode,
-      arguments: params,
-    })
-    .estimateGas()
-
-  return await contract
-    .deploy({
-      data: bytecode,
-      arguments: params,
-    })
-    .send({ from, gas })
-    .then((gameContractInstance) => {
-      console.log(
-        'Contract deployed at address: ' + gameContractInstance.options.address
-      )
-      return gameContractInstance.options.address
-    })
+  return randomIndexes.map((index) => levels[index])
 }
 
 export const encodeOption = (data: Treasure | Battle | Level) => {

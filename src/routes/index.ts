@@ -7,6 +7,10 @@ router.get('/getCurrentState', async (req, res) => {
   res.json(await stateMachine.getCurrentState())
 })
 
+router.get('/getStates', async (req, res) => {
+  res.json(await stateMachine.getStates())
+})
+
 router.post('/changeState', (req, res) => {
   stateMachine.changeState()
   res.status(200).send('OK')

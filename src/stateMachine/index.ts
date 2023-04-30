@@ -1,11 +1,9 @@
 import dotenv from 'dotenv'
-import fs from 'fs'
-import { web3 } from '..'
 
 import { State, StateMachine } from './types'
 import { State as StateType } from '../types/types'
 import * as States from './states'
-import { deployContract } from '../utils/functions'
+import { deployContract, getContractInstance } from '../utils/contract'
 
 dotenv.config()
 
@@ -49,13 +47,10 @@ export default class StateMachineImpl implements StateMachine {
   }
 
   async getCurrentState(): Promise<StateType> {
-    const artifact = fs.readFileSync('build/contracts/GameStates.json', {
-      encoding: 'utf-8',
-    })
-    const artifactData = JSON.parse(artifact)
-    const abi = artifactData.abi
-
-    const gameInstance = new web3.eth.Contract(abi, this.contractAddress)
+    const gameInstance = getContractInstance(
+      'GameStates',
+      this.contractAddress ?? ''
+    )
     const currentStateResponse = await gameInstance.methods
       .getCurrentState()
       .call()
@@ -74,5 +69,30 @@ export default class StateMachineImpl implements StateMachine {
       options: currentStateResponse.options,
     }
     return currentState
+  }
+
+  async getStates() {
+    const gameInstance = getContractInstance(
+      'GameStates',
+      this.contractAddress ?? ''
+    )
+
+    const statesResponse = await gameInstance.methods.getGameStates().call()
+    const states = statesResponse.map((stateResponse: StateType) => {
+      return {
+        state: stateResponse.state,
+        voting: stateResponse.voting,
+        player: {
+          health: stateResponse.player.health,
+          weapons: stateResponse.player.weapons,
+        },
+        level: {
+          name: stateResponse.level.name,
+          enemies: stateResponse.level.enemies,
+        },
+        options: stateResponse.options,
+      }
+    })
+    return states
   }
 }
