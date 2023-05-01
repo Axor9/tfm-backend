@@ -4,17 +4,14 @@ export interface Weapon {
   name: string
   damage: number
   range: number
+  speed: number
 }
 
 export interface Enemy {
   name: string
   health: number
   damage: number
-}
-
-export interface Battle {
-  weapon: Weapon
-  enemy: Enemy
+  type: EnemiesTypes
 }
 
 export interface Treasure {
@@ -37,6 +34,7 @@ export interface State {
   player: Player
   voting: string
   level: Level
+  enemy: string
   options: Option[]
 }
 

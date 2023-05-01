@@ -1,7 +1,7 @@
 import { web3 } from '..'
 import { Contract } from 'web3-eth-contract'
 import * as fs from 'fs'
-import { Option } from '../types/types'
+import { Option, State } from '../types/types'
 
 export const getContractInstance = (
   contract: string,
@@ -14,6 +14,23 @@ export const getContractInstance = (
   const abi = artifactData.abi
 
   return new web3.eth.Contract(abi, address)
+}
+
+export const changeState = async (address: string, state: State) => {
+  const gameInstance = getContractInstance('GameStates', address)
+
+  gameInstance.methods
+    .changeState(state)
+    .estimateGas({ from: process.env.FROM_ADDRESS ?? '' })
+    .then((gasAmount: any) => {
+      gameInstance.methods.changeState(state).send({
+        from: process.env.FROM_ADDRESS ?? '',
+        gas: gasAmount,
+      })
+    })
+    .catch((error: any) => {
+      console.error(`Error al estimar el gas: ${error}`)
+    })
 }
 
 export const closeVoting = async (address: string): Promise<Option> => {

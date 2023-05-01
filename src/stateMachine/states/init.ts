@@ -6,7 +6,6 @@ export default class InitialState implements State {
   state?: StatesTypes
   player?: Player
   level?: Level
-  votingAddress?: string
 
   async onEnter() {
     this.state = StatesTypes.Rest

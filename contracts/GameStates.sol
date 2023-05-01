@@ -23,6 +23,7 @@ contract GameStates {
         currentState.state = newState.state;
         currentState.player = newState.player;
         currentState.level = newState.level;
+        currentState.enemy = newState.enemy;
         Utils.copyOptions(currentState, newState.options);
 
         //Open new voting with state options

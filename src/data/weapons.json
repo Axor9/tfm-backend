@@ -1,17 +1,20 @@
 [
     {
         "name": "sword",
-        "damage": 20,
-        "range": 3
+        "damage": 30,
+        "range": 3,
+        "speed": 1
     },
     {
         "name": "bow",
         "damage": 10,
-        "range": 10
+        "range": 10,
+        "speed": 1
     },
     {
         "name": "dagger",
         "damage": 15,
-        "range": 1
+        "range": 1,
+        "speed": 3
     }
 ]

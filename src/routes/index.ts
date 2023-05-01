@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { stateMachine } from '..'
+import { doBattle } from '../utils/functions'
 
 const router = Router()
 
@@ -18,6 +19,10 @@ router.get('/getVotes', async (req, res) => {
 router.post('/changeState', async (req, res) => {
   await stateMachine.changeState()
   res.status(200).send('OK')
+})
+
+router.post('/battle', (req, res) => {
+  doBattle(req.body.player, req.body.weapon, req.body.enemy)
 })
 
 export default router

@@ -37,6 +37,7 @@ library Utils {
         address voting;
         Player player;
         Level level;
+        string enemy;
         Option[] options;
     }
 

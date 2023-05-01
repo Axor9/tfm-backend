@@ -1,4 +1,4 @@
-import { Level, Player } from '../types/types'
+import { Enemy, Level, Player } from '../types/types'
 import { StatesTypes } from '../utils/enums'
 import { State as StateType } from '../types/types'
 
@@ -8,7 +8,7 @@ export type State = {
   state?: StatesTypes
   player?: Player
   level?: Level
-  votingAddress?: string
+  enemy?: Enemy
 
   onEnter(address?: string, player?: Player, level?: Level): void
   onLeave(address: string): Promise<AvailableStates>

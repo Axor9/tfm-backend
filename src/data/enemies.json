@@ -1,32 +1,26 @@
 [
     {
         "name": "ogre",
-        "health": 100,
-        "damage": 10
+        "health": 50,
+        "damage": 30,
+        "type": 0
     },
     {
         "name": "bat",
-        "health": 50,
-        "damage": 5
+        "health": 20,
+        "damage": 5,
+        "type": 1
     },
     {
         "name": "troll",
-        "health": 200,
-        "damage": 20
+        "health": 40,
+        "damage": 20,
+        "type": 0
     },
     {
         "name": "skeleton",
-        "health": 25,
-        "damage": 2
-    },
-    {
-        "name": "dragon",
-        "health": 500,
-        "damage": 50
-    },
-    {
-        "name": "mimic",
-        "health": 20,
-        "damage": 100
+        "health": 30,
+        "damage": 10,
+        "type": 0
     }
 ]

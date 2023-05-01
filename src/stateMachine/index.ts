@@ -66,6 +66,7 @@ export default class StateMachineImpl implements StateMachine {
         name: currentStateResponse.level.name,
         enemies: currentStateResponse.level.enemies,
       },
+      enemy: currentStateResponse.enemy,
       options: currentStateResponse.options,
     }
     return currentState
