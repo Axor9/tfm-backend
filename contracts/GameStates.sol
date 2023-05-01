@@ -32,7 +32,7 @@ contract GameStates {
         states.push(currentState);
     }
 
-    function closeVoting() public {
+    function closeVoting() public returns (Utils.Option memory) {
         require(msg.sender == owner, "Only owner can close voting");
         currentVoting.closeVoting();
         address[] memory addressVoted = currentVoting.getAddressHasVoted();
@@ -42,6 +42,17 @@ contract GameStates {
             addressPlayed[addressVoted[i]] += currentVoting
                 .getAddressVotedAmount(addressVoted[i]);
         }
+
+        bytes32 winner = currentVoting.getWinner();
+
+        for (uint i = 0; i < currentState.options.length; i++) {
+            if (currentState.options[i].option == winner) {
+                return currentState.options[i];
+            }
+        }
+
+        //Should never return this (always winner in options)
+        return currentState.options[0];
     }
 
     function getGameStates() public view returns (Utils.State[] memory) {

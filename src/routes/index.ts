@@ -11,8 +11,8 @@ router.get('/getStates', async (req, res) => {
   res.json(await stateMachine.getStates())
 })
 
-router.post('/changeState', (req, res) => {
-  stateMachine.changeState()
+router.post('/changeState', async (req, res) => {
+  await stateMachine.changeState()
   res.status(200).send('OK')
 })
 

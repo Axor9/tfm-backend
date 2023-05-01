@@ -20,7 +20,7 @@ export default class InitialState implements State {
     }
   }
 
-  onLeave() {
+  async onLeave() {
     const newState: AvailableStates = 'Treasure'
     return newState
   }

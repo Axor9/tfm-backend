@@ -37,6 +37,18 @@ export const encodeOption = (data: Treasure | Battle | Level) => {
   }
 }
 
+export const decodeLevelOption = (data?: string): Level => {
+  if (!data) throw 'Cant decode level option'
+
+  return web3.eth.abi.decodeParameter(levelEncodeTypes, data) as Level
+}
+
+export const decodeTreasureOption = (data?: string): Treasure => {
+  if (!data) throw 'Cant decode treasure option'
+
+  return web3.eth.abi.decodeParameter(treasureEncodeTypes, data) as Treasure
+}
+
 export const createState = (
   type: StatesTypes,
   player: Player,

@@ -1,5 +1,4 @@
 import { OptionTypes, StatesTypes } from '../utils/enums'
-import { BN } from 'web3-core'
 
 export interface Weapon {
   name: string

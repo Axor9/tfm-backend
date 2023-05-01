@@ -11,7 +11,7 @@ export type State = {
   votingAddress?: string
 
   onEnter(address?: string, player?: Player, level?: Level): void
-  onLeave(address: string): AvailableStates
+  onLeave(address: string): Promise<AvailableStates>
 }
 
 export type StateMachine = {

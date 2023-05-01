@@ -14,7 +14,7 @@ export default class BattleState implements State {
 
   onEnter() {}
 
-  onLeave() {
+  async onLeave() {
     const newState: AvailableStates = 'Treasure'
     return newState
   }

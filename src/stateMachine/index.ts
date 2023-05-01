@@ -28,10 +28,10 @@ export default class StateMachineImpl implements StateMachine {
     })
   }
 
-  changeState() {
+  async changeState() {
     if (!this.contractAddress) throw 'Cant change state (no contact address)'
 
-    const newStateKey = this.currentState.onLeave(this.contractAddress)
+    const newStateKey = await this.currentState.onLeave(this.contractAddress)
     const newState = new States[`${newStateKey}State`].default()
 
     if (!this.currentState.player || !this.currentState.level)
@@ -46,7 +46,7 @@ export default class StateMachineImpl implements StateMachine {
     this.currentState = newState
   }
 
-  async getCurrentState(): Promise<StateType> {
+  async getCurrentState() {
     const gameInstance = getContractInstance(
       'GameStates',
       this.contractAddress ?? ''

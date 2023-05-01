@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import { web3 } from '../..'
 
 import { State, AvailableStates } from '../types'
 import { Level, Player, Option } from '../../types/types'
@@ -7,6 +6,7 @@ import { OptionTypes, StatesTypes } from '../../utils/enums'
 import { getContractInstance } from '../../utils/contract'
 import {
   createState,
+  decodeLevelOption,
   encodeOption,
   getOptionLevels,
   stringToBytes32,
@@ -53,7 +53,16 @@ export default class RestState implements State {
       })
   }
 
-  onLeave() {
+  async onLeave(address: string) {
+    const gameInstance = getContractInstance('GameStates', address)
+    const winnerOption: Option = await gameInstance.methods
+      .closeVoting()
+      .send({ from: process.env.FROM_ADDRESS ?? '' })
+
+    if (winnerOption.optionType === OptionTypes.Level) {
+      this.level = decodeLevelOption(winnerOption.data)
+    }
+
     const newState: AvailableStates = 'Treasure'
     return newState
   }
