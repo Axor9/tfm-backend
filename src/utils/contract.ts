@@ -1,6 +1,7 @@
 import { web3 } from '..'
 import { Contract } from 'web3-eth-contract'
 import * as fs from 'fs'
+import { Option } from '../types/types'
 
 export const getContractInstance = (
   contract: string,
@@ -13,6 +14,19 @@ export const getContractInstance = (
   const abi = artifactData.abi
 
   return new web3.eth.Contract(abi, address)
+}
+
+export const closeVoting = async (address: string): Promise<Option> => {
+  const gameInstance = getContractInstance('GameStates', address)
+  const gas = await gameInstance.methods
+    .closeVoting()
+    .estimateGas({ from: process.env.FROM_ADDRESS ?? '' })
+
+  await gameInstance.methods
+    .closeVoting()
+    .send({ from: process.env.FROM_ADDRESS ?? '', gas })
+
+  return await gameInstance.methods.getVotingWinner().call()
 }
 
 export const deployContract = async (

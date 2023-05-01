@@ -40,13 +40,23 @@ export const encodeOption = (data: Treasure | Battle | Level) => {
 export const decodeLevelOption = (data?: string): Level => {
   if (!data) throw 'Cant decode level option'
 
-  return web3.eth.abi.decodeParameter(levelEncodeTypes, data) as Level
+  const level = web3.eth.abi.decodeParameter(levelEncodeTypes, data)
+
+  return {
+    name: level.name,
+    enemies: level.enemies,
+  } as Level
 }
 
 export const decodeTreasureOption = (data?: string): Treasure => {
   if (!data) throw 'Cant decode treasure option'
 
-  return web3.eth.abi.decodeParameter(treasureEncodeTypes, data) as Treasure
+  const treasure = web3.eth.abi.decodeParameter(treasureEncodeTypes, data)
+
+  return {
+    isMimic: treasure.isMimic,
+    weapon: treasure.weapon,
+  } as Treasure
 }
 
 export const createState = (

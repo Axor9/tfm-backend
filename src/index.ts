@@ -16,6 +16,7 @@ const provider = new Web3.providers.HttpProvider(
 const web3 = new Web3(provider)
 const stateMachine = new StateMachine()
 
+app.use(express.json())
 app.use('', statesRouter)
 
 app.listen(port, () => {

@@ -95,4 +95,22 @@ export default class StateMachineImpl implements StateMachine {
     })
     return states
   }
+
+  async getCurrentStateVotes() {
+    const currentState = await this.getCurrentState()
+    const votingInstance = getContractInstance('Voting', currentState.voting)
+
+    const addresses = await votingInstance.methods.getAddressHasVoted().call()
+    const votes = Promise.all(
+      addresses.map(async (address: string) => {
+        return {
+          address: address,
+          amount: await votingInstance.methods
+            .getAddressVotedAmount(address)
+            .call(),
+        }
+      })
+    )
+    return votes
+  }
 }

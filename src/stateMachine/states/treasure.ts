@@ -11,7 +11,7 @@ import {
   stringToBytes32,
   decodeTreasureOption,
 } from '../../utils/functions'
-import { getContractInstance } from '../../utils/contract'
+import { getContractInstance, closeVoting } from '../../utils/contract'
 
 dotenv.config()
 
@@ -58,18 +58,14 @@ export default class TreasureState implements State {
   }
 
   async onLeave(address: string) {
-    const gameInstance = getContractInstance('GameStates', address)
-    const winnerOption: Option = await gameInstance.methods
-      .closeVoting()
-      .send({ from: process.env.FROM_ADDRESS ?? '' })
+    const winnerOption = await closeVoting(address)
 
-    if (winnerOption.optionType === OptionTypes.Treasure) {
+    if (winnerOption.optionType == OptionTypes.Treasure) {
       this.player?.weapons.push(
         decodeTreasureOption(winnerOption.data).weapon.name
       )
       //TODO Battle if mimic
     }
-
     const newState: AvailableStates = 'Rest'
 
     return newState

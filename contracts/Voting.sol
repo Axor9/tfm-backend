@@ -70,19 +70,10 @@ contract Voting {
     function getAddressVotedAmount(
         address _address
     ) public view returns (uint256) {
-        require(
-            msg.sender == owner,
-            "Only owner can get the amount a address has voted"
-        );
         return addressVotedAmount[_address];
     }
 
     function getAddressHasVoted() public view returns (address[] memory) {
-        require(
-            msg.sender == owner,
-            "Only owner can get the address has voted"
-        );
-
         return addressVoted;
     }
 }

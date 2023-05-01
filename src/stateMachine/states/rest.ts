@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import { State, AvailableStates } from '../types'
 import { Level, Player, Option } from '../../types/types'
 import { OptionTypes, StatesTypes } from '../../utils/enums'
-import { getContractInstance } from '../../utils/contract'
+import { closeVoting, getContractInstance } from '../../utils/contract'
 import {
   createState,
   decodeLevelOption,
@@ -29,9 +29,9 @@ export default class RestState implements State {
 
     const options: Option[] = getOptionLevels(levels).map((level) => {
       return {
-        optionType: OptionTypes.Weapon,
+        optionType: OptionTypes.Level,
         data: encodeOption(level),
-        option: stringToBytes32(`Weapon ${level.name}`),
+        option: stringToBytes32(`Level ${level.name}`),
       }
     })
 
@@ -54,12 +54,9 @@ export default class RestState implements State {
   }
 
   async onLeave(address: string) {
-    const gameInstance = getContractInstance('GameStates', address)
-    const winnerOption: Option = await gameInstance.methods
-      .closeVoting()
-      .send({ from: process.env.FROM_ADDRESS ?? '' })
+    const winnerOption = await closeVoting(address)
 
-    if (winnerOption.optionType === OptionTypes.Level) {
+    if (winnerOption.optionType == OptionTypes.Level) {
       this.level = decodeLevelOption(winnerOption.data)
     }
 
