@@ -17,14 +17,14 @@ contract Voting {
         candidates = _candidates;
     }
 
-    function vote(bytes32 candidate, uint256 amount) public payable {
+    function vote(bytes32 candidate) public payable {
         require(votingOpen, "Voting is closed");
-        require(amount > 0, "Amount must be greater than 0");
+        require(msg.value > 0, "Amount must be greater than 0");
         require(!hasVoted[msg.sender], "You have already voted");
         require(validateCandidate(candidate), "Invalid candidate");
 
-        votesReceived[candidate] += amount;
-        addressVotedAmount[msg.sender] += amount;
+        votesReceived[candidate] += msg.value;
+        addressVotedAmount[msg.sender] += msg.value;
         hasVoted[msg.sender] = true;
         addressVoted.push(msg.sender);
     }

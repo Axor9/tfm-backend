@@ -1,8 +1,8 @@
 [
     {
-        "name": "ogre",
-        "health": 50,
-        "damage": 30,
+        "name": "troll",
+        "health": 10,
+        "damage": 10,
         "type": 0
     },
     {
@@ -12,13 +12,43 @@
         "type": 1
     },
     {
-        "name": "troll",
-        "health": 40,
+        "name": "demon",
+        "health": 30,
+        "damage": 10,
+        "type": 0
+    },
+    {
+        "name": "slime",
+        "health": 20,
+        "damage": 5,
+        "type": 0
+    },
+    {
+        "name": "spider",
+        "health": 15,
+        "damage": 10,
+        "type": 0
+    },
+    {
+        "name": "ghost",
+        "health": 30,
+        "damage": 5,
+        "type": 1
+    },
+    {
+        "name": "wizard",
+        "health": 20,
         "damage": 20,
         "type": 0
     },
     {
-        "name": "skeleton",
+        "name": "zombie",
+        "health": 20,
+        "damage": 5,
+        "type": 0
+    },
+    {
+        "name": "bandit",
         "health": 30,
         "damage": 10,
         "type": 0

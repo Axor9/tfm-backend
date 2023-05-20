@@ -1,14 +1,34 @@
 [
     {
-        "name": "swamp",
-        "enemies": ["troll", "skeleton"]
+        "name": "desert",
+        "enemies": ["slime", "zombie"]
     },
     {
         "name": "forest",
-        "enemies": ["ogre"]
+        "enemies": ["slime", "troll", "wizard"]
+    },
+    {
+        "name": "dungeon",
+        "enemies": ["demon", "wizard"]
+    },
+    {
+        "name": "volcano",
+        "enemies": ["bat", "demon"]
+    },
+    {
+        "name": "tundra",
+        "enemies": ["bandit", "spider"]
+    },
+    {
+        "name": "ice",
+        "enemies": ["ghost"]
     },
     {
         "name": "cave",
-        "enemies": ["bat"]
+        "enemies": ["bat", "spider"]
+    },
+    {
+        "name": "swamp",
+        "enemies": ["zombie", "ghost"]
     }
 ]

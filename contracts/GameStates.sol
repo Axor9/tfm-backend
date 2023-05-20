@@ -38,11 +38,12 @@ contract GameStates {
             currentState.voting = address(currentVoting);
         }
 
-        states.push(currentState);
-
         if (currentState.state == Utils.StatesTypes.Final) {
+            delete (currentState.options);
             canChangeState = false;
         }
+
+        states.push(currentState);
     }
 
     function closeVoting() public {
