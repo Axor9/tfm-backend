@@ -63,7 +63,7 @@ module.exports = {
     // Configure your compilers
     compilers: {
         solc: {
-            version: '^0.8.0', // Fetch exact version from solc-bin
+            version: '0.8.0', // Fetch exact version from solc-bin
         },
     },
 }

@@ -20,17 +20,29 @@ contract GameStates {
     }
 
     function changeState(Utils.State memory newState) public {
+        require(msg.sender == owner, "Only owner can close voting");
+        require(canChangeState, "The game is over");
+
         currentState.state = newState.state;
         currentState.player = newState.player;
         currentState.level = newState.level;
         currentState.enemy = newState.enemy;
-        Utils.copyOptions(currentState, newState.options);
 
-        //Open new voting with state options
-        currentVoting = new Voting(Utils.getOptionValues(currentState.options));
-        currentState.voting = address(currentVoting);
+        if (newState.options.length > 0) {
+            Utils.copyOptions(currentState, newState.options);
+
+            //Open new voting with state options
+            currentVoting = new Voting(
+                Utils.getOptionValues(currentState.options)
+            );
+            currentState.voting = address(currentVoting);
+        }
 
         states.push(currentState);
+
+        if (currentState.state == Utils.StatesTypes.Final) {
+            canChangeState = false;
+        }
     }
 
     function closeVoting() public {

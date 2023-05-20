@@ -45,7 +45,7 @@ export default class RestState implements State {
       this.level = decodeLevelOption(winnerOption.data)
     }
 
-    if (Math.random() > 0.2) {
+    if (Math.random() > 0.5) {
       return 'Battle' as AvailableStates
     }
 

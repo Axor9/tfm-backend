@@ -13,7 +13,8 @@ library Utils {
     enum StatesTypes {
         Rest,
         Battle,
-        Treasure
+        Treasure,
+        Final
     }
 
     struct Player {

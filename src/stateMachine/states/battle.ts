@@ -69,7 +69,7 @@ export default class BattleState implements State {
       doBattle(this.player, weapon, this.enemy)
     }
 
-    const newState: AvailableStates = 'Treasure'
-    return newState
+    if (this.player?.health == 0) return 'Final' as AvailableStates
+    return 'Rest' as AvailableStates
   }
 }

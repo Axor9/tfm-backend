@@ -46,13 +46,12 @@ export default class TreasureState implements State {
     const winnerOption = await closeVoting(address)
 
     if (winnerOption.optionType == OptionTypes.Treasure) {
-      this.player?.weapons.push(
-        decodeTreasureOption(winnerOption.data).weapon.name
-      )
-      //TODO Battle if mimic
-    }
-    const newState: AvailableStates = 'Rest'
+      const treasure = decodeTreasureOption(winnerOption.data)
+      this.player?.weapons.push(treasure.weapon.name)
 
-    return newState
+      if (treasure.isMimic) return 'Battle' as AvailableStates
+    }
+
+    return 'Rest' as AvailableStates
   }
 }

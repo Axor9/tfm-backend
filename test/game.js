@@ -38,6 +38,7 @@ contract('Game', () => {
                 name: 'home',
                 enemies: [],
             },
+            enemy: '',
             options: [
                 {
                     optionType: 1,

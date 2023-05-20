@@ -50,6 +50,7 @@ export const doBattle = (player: Player, weapon: Weapon, enemy: Enemy) => {
     }
 
     if (player.health <= 0) {
+      player.health = 0
       return
     }
   }
