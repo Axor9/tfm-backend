@@ -20,7 +20,7 @@ export interface Treasure {
 }
 
 export interface Player {
-  health: any
+  health: number
   weapons: string[]
 }
 

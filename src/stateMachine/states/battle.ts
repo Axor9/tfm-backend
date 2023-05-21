@@ -36,12 +36,16 @@ export default class BattleState implements State {
 
     this.state = StatesTypes.Battle
     this.level = level
-    this.player = player
+    this.player = { ...player }
     this.enemy =
       previousState == StatesTypes.Treasure
         ? mimic
         : getEnemy(this.level.enemies[randomIndex])
     if (!this.enemy) throw 'Error no enemy found'
+
+    if (previousState == StatesTypes.Treasure) {
+      this.player.weapons.pop()
+    }
 
     const options: Option[] = getWeapons(this.player).map((weapon) => {
       return {
@@ -50,10 +54,6 @@ export default class BattleState implements State {
         option: stringToBytes32(`Weapon ${weapon.name}`),
       }
     })
-
-    if (previousState == StatesTypes.Treasure) {
-      this.player.weapons.pop()
-    }
 
     const state = createState(
       this.state,
