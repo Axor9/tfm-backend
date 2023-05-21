@@ -24,7 +24,10 @@ export default class TreasureState implements State {
     this.level = level
     this.player = player
 
-    const treasure = createTreasure(level.name === 'home' ? false : true)
+    const treasure = createTreasure(
+      this.player,
+      level.name === 'home' ? false : true
+    )
 
     const state = createState(this.state, this.player, this.level, [
       {
@@ -47,8 +50,8 @@ export default class TreasureState implements State {
 
     if (winnerOption.optionType == OptionTypes.Treasure) {
       const treasure = decodeTreasureOption(winnerOption.data)
-      this.player?.weapons.push(treasure.weapon.name)
 
+      this.player?.weapons.push(treasure.weapon.name)
       if (treasure.isMimic) return 'Battle' as AvailableStates
     }
 

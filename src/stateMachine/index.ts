@@ -40,7 +40,8 @@ export default class StateMachineImpl implements StateMachine {
     newState.onEnter(
       this.contractAddress,
       this.currentState.player,
-      this.currentState.level
+      this.currentState.level,
+      this.currentState.state
     )
 
     this.currentState = newState

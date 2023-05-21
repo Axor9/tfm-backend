@@ -16,5 +16,17 @@
         "damage": 5,
         "range": 1,
         "speed": 3
+    },
+    {
+        "name": "great_sword",
+        "damage": 15,
+        "range": 4,
+        "speed": 0
+    },
+    {
+        "name": "lance",
+        "damage": 8,
+        "range": 6,
+        "speed": 1
     }
 ]

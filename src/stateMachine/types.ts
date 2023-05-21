@@ -10,7 +10,12 @@ export type State = {
   level?: Level
   enemy?: Enemy
 
-  onEnter(address?: string, player?: Player, level?: Level): void
+  onEnter(
+    address?: string,
+    player?: Player,
+    level?: Level,
+    previousState?: StatesTypes
+  ): void
   onLeave(address: string): Promise<AvailableStates>
 }
 

@@ -87,11 +87,19 @@ export const createState = (
   return state
 }
 
-export function createTreasure(mimic: boolean): Treasure {
-  const randomIndex = Math.floor(Math.random() * weapons.length)
+export function createTreasure(player: Player, mimic: boolean): Treasure {
+  let randomIndex = Math.floor(Math.random() * weapons.length)
+
+  if (player.weapons.length != weapons.length) {
+    while (
+      player.weapons.find((weapon) => weapon === weapons[randomIndex].name)
+    ) {
+      randomIndex = Math.floor(Math.random() * weapons.length)
+    }
+  }
 
   if (mimic) {
-    if (Math.random() > 0.1) {
+    if (Math.random() > 0.5) {
       mimic = false
     }
   }

@@ -1,3 +1,5 @@
+import { Enemy } from '../types/types'
+
 export const fightVariables = {
   maxRange: 10,
   maxRangeMultiplier: 1.5,
@@ -50,4 +52,11 @@ export const levelEncodeTypes = {
     name: 'string',
     enemies: 'string[]',
   },
+}
+
+export const mimic: Enemy = {
+  name: 'mimic',
+  health: 40,
+  damage: 20,
+  type: 0,
 }
