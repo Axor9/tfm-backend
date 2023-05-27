@@ -28,6 +28,7 @@ contract('Game', () => {
         }
 
         const initalState = {
+            id: 34535646467457,
             state: 2,
             voting: '0x1aaa677F2CAed6b68F6aa31db37Ec3b159b86622',
             player: {

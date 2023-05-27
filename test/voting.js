@@ -16,7 +16,7 @@ contract('Voting', (accounts) => {
     })
     it('should register votes and close voting correctly', async () => {
         const votingInstance = await Voting.deployed()
-        await votingInstance.vote(initialCandidates[0], 1)
+        await votingInstance.vote(initialCandidates[0])
 
         const votedAddress = await votingInstance.getAddressHasVoted()
         assert.equal(votedAddress, accounts[0])

@@ -23,13 +23,7 @@ contract GameStates {
         require(msg.sender == owner, "Only owner can close voting");
         require(canChangeState, "The game is over");
 
-        currentState.id = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender))
-        );
-        currentState.state = newState.state;
-        currentState.player = newState.player;
-        currentState.level = newState.level;
-        currentState.enemy = newState.enemy;
+        Utils.setCurrentState(currentState, newState);
 
         if (newState.options.length > 0) {
             Utils.copyOptions(currentState, newState.options);
@@ -59,49 +53,24 @@ contract GameStates {
             addressPlayed[addressVoted[i]] += currentVoting
                 .getAddressVotedAmount(addressVoted[i]);
         }
+
+        currentVoting.transferVotes(payable(owner));
     }
 
     function getWinnerOption(
         uint256 stateId
     ) public view returns (Utils.Option memory) {
-        address stateAddress = currentState.voting;
         Utils.State memory state = currentState;
 
         for (uint i = 0; i < states.length; i++) {
             if (states[i].id == stateId) {
-                stateAddress = states[i].voting;
                 state = states[i];
                 break;
             }
         }
-        Voting voting = Voting(stateAddress);
+        Voting voting = Voting(state.voting);
         bytes32 winner = voting.getWinner();
-
-        for (uint i = 0; i < state.options.length; i++) {
-            if (state.options[i].option == winner) {
-                return state.options[i];
-            }
-        }
-
-        //Should never return this (always winner in options)
-        return currentState.options[0];
-    }
-
-    function getCurrentStateWinnerOption()
-        public
-        view
-        returns (Utils.Option memory)
-    {
-        bytes32 winner = currentVoting.getWinner();
-
-        for (uint i = 0; i < currentState.options.length; i++) {
-            if (currentState.options[i].option == winner) {
-                return currentState.options[i];
-            }
-        }
-
-        //Should never return this (always winner in options)
-        return currentState.options[0];
+        return Utils.findWinner(winner, state);
     }
 
     function getGameStates() public view returns (Utils.State[] memory) {

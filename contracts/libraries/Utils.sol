@@ -65,4 +65,31 @@ library Utils {
             currrentState.options.push(options[i]);
         }
     }
+
+    function setCurrentState(
+        State storage currentState,
+        State memory newState
+    ) internal {
+        currentState.id = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender))
+        );
+        currentState.state = newState.state;
+        currentState.player = newState.player;
+        currentState.level = newState.level;
+        currentState.enemy = newState.enemy;
+    }
+
+    function findWinner(
+        bytes32 winner,
+        State memory state
+    ) internal pure returns (Option memory) {
+        for (uint i = 0; i < state.options.length; i++) {
+            if (state.options[i].option == winner) {
+                return state.options[i];
+            }
+        }
+
+        //Should never return this (always winner in options)
+        return state.options[0];
+    }
 }

@@ -130,28 +130,11 @@ export default class StateMachineImpl implements StateMachine {
       this.contractAddress ?? ''
     )
 
-    const winnerOption = await gameInstance.methods.getWinnerOption(id).call()
-    return winnerOption
-  }
-
-  async getCandidates(address: string) {
-    const votingInstance = getContractInstance('Voting', address)
-
-    const candidates = await votingInstance.methods.getCandidates().call()
-    return candidates
-  }
-
-  async getWinner(address: string) {
-    const votingInstance = getContractInstance('Voting', address)
-
-    const candidates = await votingInstance.methods.getWinner().call()
-    return candidates
-  }
-
-  async getCandidatesVotes(address: string, candidate: string) {
-    const votingInstance = getContractInstance('Voting', address)
-
-    const candidates = await votingInstance.methods.getVotes(candidate).call()
-    return candidates
+    try {
+      const winnerOption = await gameInstance.methods.getWinnerOption(id).call()
+      return winnerOption
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

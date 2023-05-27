@@ -25,4 +25,8 @@ router.post('/battle', (req, res) => {
   doBattle(req.body.player, req.body.weapon, req.body.enemy)
 })
 
+router.get('/winner', async (req, res) => {
+  res.json(await stateMachine.getWinnerOption(req.query.id as string))
+})
+
 export default router

@@ -71,10 +71,23 @@ contract Voting {
     function getAddressVotedAmount(
         address _address
     ) public view returns (uint256) {
+        require(!votingOpen, "Voting must be closed");
         return addressVotedAmount[_address];
     }
 
     function getAddressHasVoted() public view returns (address[] memory) {
+        require(!votingOpen, "Voting must be closed");
         return addressVoted;
+    }
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    function transferVotes(address payable recipient) external {
+        require(!votingOpen, "Voting must be closed");
+        require(msg.sender == owner, "Only owner can transfer votes");
+        uint256 balance = address(this).balance;
+        recipient.transfer(balance);
+
+        emit Transfer(msg.sender, recipient, balance);
     }
 }
