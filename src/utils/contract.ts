@@ -43,7 +43,7 @@ export const closeVoting = async (address: string): Promise<Option> => {
     .closeVoting()
     .send({ from: process.env.FROM_ADDRESS ?? '', gas })
 
-  return await gameInstance.methods.getVotingWinner().call()
+  return await gameInstance.methods.getCurrentStateWinnerOption().call()
 }
 
 export const deployContract = async (

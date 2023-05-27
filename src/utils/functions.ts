@@ -76,6 +76,7 @@ export const createState = (
   enemy?: string
 ) => {
   const state: State = {
+    id: 0,
     player,
     level,
     options,

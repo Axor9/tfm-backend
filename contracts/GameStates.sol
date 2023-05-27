@@ -23,6 +23,9 @@ contract GameStates {
         require(msg.sender == owner, "Only owner can close voting");
         require(canChangeState, "The game is over");
 
+        currentState.id = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender))
+        );
         currentState.state = newState.state;
         currentState.player = newState.player;
         currentState.level = newState.level;
@@ -39,7 +42,7 @@ contract GameStates {
         }
 
         if (currentState.state == Utils.StatesTypes.Final) {
-            delete (currentState.options);
+            delete currentState.options;
             canChangeState = false;
         }
 
@@ -58,7 +61,37 @@ contract GameStates {
         }
     }
 
-    function getVotingWinner() public view returns (Utils.Option memory) {
+    function getWinnerOption(
+        uint256 stateId
+    ) public view returns (Utils.Option memory) {
+        address stateAddress = currentState.voting;
+        Utils.State memory state = currentState;
+
+        for (uint i = 0; i < states.length; i++) {
+            if (states[i].id == stateId) {
+                stateAddress = states[i].voting;
+                state = states[i];
+                break;
+            }
+        }
+        Voting voting = Voting(stateAddress);
+        bytes32 winner = voting.getWinner();
+
+        for (uint i = 0; i < state.options.length; i++) {
+            if (state.options[i].option == winner) {
+                return state.options[i];
+            }
+        }
+
+        //Should never return this (always winner in options)
+        return currentState.options[0];
+    }
+
+    function getCurrentStateWinnerOption()
+        public
+        view
+        returns (Utils.Option memory)
+    {
         bytes32 winner = currentVoting.getWinner();
 
         for (uint i = 0; i < currentState.options.length; i++) {

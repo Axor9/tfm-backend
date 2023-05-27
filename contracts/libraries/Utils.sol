@@ -34,6 +34,7 @@ library Utils {
     }
 
     struct State {
+        uint256 id;
         StatesTypes state;
         address voting;
         Player player;

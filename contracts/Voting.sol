@@ -64,6 +64,7 @@ contract Voting {
 
     function closeVoting() public {
         require(msg.sender == owner, "Only owner can close voting");
+        require(addressVoted.length > 0, "Someone must have voted.");
         votingOpen = false;
     }
 

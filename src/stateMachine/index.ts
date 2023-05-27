@@ -11,9 +11,15 @@ export default class StateMachineImpl implements StateMachine {
   currentState: State
   contractAddress: string | undefined
 
-  constructor() {
+  constructor(contract?: string) {
     this.currentState = new States.InitState.default()
     this.currentState.onEnter()
+
+    if (contract) {
+      this.contractAddress = contract
+      return
+    }
+
     this.init()
   }
 
@@ -57,6 +63,7 @@ export default class StateMachineImpl implements StateMachine {
       .call()
 
     const currentState: StateType = {
+      id: currentStateResponse.id,
       state: currentStateResponse.state,
       voting: currentStateResponse.voting,
       player: {
@@ -82,6 +89,7 @@ export default class StateMachineImpl implements StateMachine {
     const statesResponse = await gameInstance.methods.getGameStates().call()
     const states = statesResponse.map((stateResponse: StateType) => {
       return {
+        id: stateResponse.id,
         state: stateResponse.state,
         voting: stateResponse.voting,
         player: {
@@ -114,5 +122,36 @@ export default class StateMachineImpl implements StateMachine {
       })
     )
     return votes
+  }
+
+  async getWinnerOption(id: string) {
+    const gameInstance = getContractInstance(
+      'GameStates',
+      this.contractAddress ?? ''
+    )
+
+    const winnerOption = await gameInstance.methods.getWinnerOption(id).call()
+    return winnerOption
+  }
+
+  async getCandidates(address: string) {
+    const votingInstance = getContractInstance('Voting', address)
+
+    const candidates = await votingInstance.methods.getCandidates().call()
+    return candidates
+  }
+
+  async getWinner(address: string) {
+    const votingInstance = getContractInstance('Voting', address)
+
+    const candidates = await votingInstance.methods.getWinner().call()
+    return candidates
+  }
+
+  async getCandidatesVotes(address: string, candidate: string) {
+    const votingInstance = getContractInstance('Voting', address)
+
+    const candidates = await votingInstance.methods.getVotes(candidate).call()
+    return candidates
   }
 }
