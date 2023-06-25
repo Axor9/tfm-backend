@@ -1,4 +1,10 @@
-import { Enemy, Level, Player } from '../types/types'
+import {
+  Enemy,
+  Level,
+  Option,
+  Player,
+  State as StateObject,
+} from '../types/types'
 import { StatesTypes } from '../utils/enums'
 import { State as StateType } from '../types/types'
 
@@ -11,17 +17,17 @@ export type State = {
   enemy?: Enemy
 
   onEnter(
-    address?: string,
     player?: Player,
     level?: Level,
     previousState?: StatesTypes
-  ): void
-  onLeave(address: string): Promise<AvailableStates>
+  ): StateObject
+  onLeave(option?: Option): Promise<AvailableStates>
 }
 
 export type StateMachine = {
   init(): void
   changeState(): void
+  synchronizeState(contract: string): Promise<void>
   getCurrentState(): Promise<StateType>
   getStates(): Promise<StateType[]>
 }

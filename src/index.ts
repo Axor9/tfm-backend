@@ -14,6 +14,7 @@ const provider = new Web3.providers.HttpProvider(
 )
 
 const web3 = new Web3(provider)
+
 const stateMachine = new StateMachine(process.env.CONTRACT_ADDRESS)
 
 app.use(express.json())

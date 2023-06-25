@@ -14,17 +14,17 @@ export default class FinalState implements State {
   player?: Player
   level?: Level
 
-  onEnter(address: string, player: Player, level: Level) {
+  onEnter(player: Player, level: Level) {
     this.state = StatesTypes.Final
     this.player = player
     this.level = level
 
     const state = createState(this.state, this.player, this.level, [])
 
-    changeState(address, state)
+    return state
   }
 
-  async onLeave(address: string) {
+  async onLeave() {
     return 'Final' as AvailableStates
   }
 }

@@ -20,7 +20,7 @@ export default class RestState implements State {
   player?: Player
   level?: Level
 
-  onEnter(address: string, player: Player, level: Level) {
+  onEnter(player: Player, level: Level) {
     this.state = StatesTypes.Rest
     this.player = player
     this.level = level
@@ -35,14 +35,12 @@ export default class RestState implements State {
 
     const state = createState(this.state, this.player, this.level, [...options])
 
-    changeState(address, state)
+    return state
   }
 
-  async onLeave(address: string) {
-    const winnerOption = await closeVoting(address)
-
-    if (winnerOption.optionType == OptionTypes.Level) {
-      this.level = decodeLevelOption(winnerOption.data)
+  async onLeave(option: Option) {
+    if (option.optionType == OptionTypes.Level) {
+      this.level = decodeLevelOption(option.data)
     }
 
     if (Math.random() > 0.5) {

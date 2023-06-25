@@ -47,6 +47,15 @@ module.exports = {
             port: 7545, // Standard Ethereum port (default: none)
             network_id: '*', // Any network (default: none)
         },
+        // sepolia: {
+        //     provider: () =>
+        //         new HDWalletProvider(
+        //             '<YOUR_PRIVATE_KEY>',
+        //             'https://rpc.sepolia.testnet'
+        //         ),
+        //     network_id: '11155111', // Puede que el ID de red sea diferente en Sepolia
+        //     gas: 4465030,
+        // },
         //
         // goerli: {
         //   provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/${infuraProjectId}`),

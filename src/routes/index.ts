@@ -29,4 +29,9 @@ router.get('/winner', async (req, res) => {
   res.json(await stateMachine.getWinnerOption(req.query.id as string))
 })
 
+router.get('/finish', async (req, res) => {
+  await stateMachine.finishGame()
+  res.status(200).send('OK')
+})
+
 export default router

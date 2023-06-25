@@ -1,13 +1,14 @@
 import { State, AvailableStates } from '../types'
 import { Level, Player } from '../../types/types'
 import { StatesTypes } from '../../utils/enums'
+import { createState } from '../../utils/functions'
 
 export default class InitialState implements State {
   state?: StatesTypes
   player?: Player
   level?: Level
 
-  async onEnter() {
+  onEnter() {
     this.state = StatesTypes.Rest
     this.level = {
       name: 'home',
@@ -17,6 +18,8 @@ export default class InitialState implements State {
       health: 100,
       weapons: [],
     }
+
+    return createState(this.state, this.player, this.level, [])
   }
 
   async onLeave() {

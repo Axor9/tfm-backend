@@ -16,15 +16,31 @@ export const getContractInstance = (
   return new web3.eth.Contract(abi, address)
 }
 
-export const changeState = async (address: string, state: State) => {
+export const addAccount = () => {
+  try {
+    web3.eth.accounts.wallet.add({
+      privateKey: process.env.FROM_PRIVATE_KEY ?? '',
+      address: process.env.FROM_ADDRESS ?? '',
+    })
+    return process.env.FROM_ADDRESS
+  } catch (error) {
+    console.error('Could not add account')
+  }
+}
+
+export const changeState = async (
+  address: string,
+  state: State,
+  from: string
+) => {
   const gameInstance = getContractInstance('GameStates', address)
 
   gameInstance.methods
     .changeState(state)
-    .estimateGas({ from: process.env.FROM_ADDRESS ?? '' })
+    .estimateGas({ from })
     .then((gasAmount: any) => {
       gameInstance.methods.changeState(state).send({
-        from: process.env.FROM_ADDRESS ?? '',
+        from,
         gas: gasAmount,
       })
     })
@@ -33,15 +49,14 @@ export const changeState = async (address: string, state: State) => {
     })
 }
 
-export const closeVoting = async (address: string): Promise<Option> => {
+export const closeVoting = async (
+  address: string,
+  from: string
+): Promise<Option> => {
   const gameInstance = getContractInstance('GameStates', address)
-  const gas = await gameInstance.methods
-    .closeVoting()
-    .estimateGas({ from: process.env.FROM_ADDRESS ?? '' })
+  const gas = await gameInstance.methods.closeVoting().estimateGas({ from })
 
-  await gameInstance.methods
-    .closeVoting()
-    .send({ from: process.env.FROM_ADDRESS ?? '', gas })
+  await gameInstance.methods.closeVoting().send({ from, gas })
 
   const currentStateResponse = await gameInstance.methods
     .getCurrentState()

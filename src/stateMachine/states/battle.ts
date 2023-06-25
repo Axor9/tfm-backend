@@ -26,12 +26,7 @@ export default class BattleState implements State {
   level?: Level
   enemy?: Enemy
 
-  onEnter(
-    address: string,
-    player: Player,
-    level: Level,
-    previousState?: StatesTypes
-  ) {
+  onEnter(player: Player, level: Level, previousState?: StatesTypes) {
     const randomIndex = Math.floor(Math.random() * level.enemies.length)
 
     this.state = StatesTypes.Battle
@@ -70,19 +65,17 @@ export default class BattleState implements State {
       this.enemy.name
     )
     this.player = player
-    changeState(address, state)
+    return state
   }
 
-  async onLeave(address: string) {
-    const winnerOption = await closeVoting(address)
-
-    if (winnerOption.optionType == OptionTypes.Weapon) {
-      const weapon = decodeWeaponOption(winnerOption.data)
+  async onLeave(option: Option) {
+    if (option.optionType == OptionTypes.Weapon) {
+      const weapon = decodeWeaponOption(option.data)
       if (!this.player || !this.enemy) throw 'Error no player or enemy'
       doBattle(this.player, weapon, this.enemy)
     }
 
-    if (winnerOption.optionType == OptionTypes.Skip) {
+    if (option.optionType == OptionTypes.Skip) {
       if (!this.player) throw 'Error no player'
       this.player.health -= 10
     }

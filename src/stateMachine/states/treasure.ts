@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { web3 } from '../../'
 
 import { State, AvailableStates } from '../types'
-import { Level, Player } from '../../types/types'
+import { Level, Option, Player } from '../../types/types'
 import { OptionTypes, StatesTypes } from '../../utils/enums'
 import { createState, createTreasure } from '../../utils/functions'
 import {
@@ -19,7 +19,7 @@ export default class TreasureState implements State {
   player?: Player
   level?: Level
 
-  onEnter(address: string, player: Player, level: Level) {
+  onEnter(player: Player, level: Level) {
     this.state = StatesTypes.Treasure
     this.level = level
     this.player = player
@@ -42,14 +42,12 @@ export default class TreasureState implements State {
       },
     ])
 
-    changeState(address, state)
+    return state
   }
 
-  async onLeave(address: string) {
-    const winnerOption = await closeVoting(address)
-
-    if (winnerOption.optionType == OptionTypes.Treasure) {
-      const treasure = decodeTreasureOption(winnerOption.data)
+  async onLeave(option: Option) {
+    if (option.optionType == OptionTypes.Treasure) {
+      const treasure = decodeTreasureOption(option.data)
 
       this.player?.weapons.push(treasure.weapon.name)
       if (treasure.isMimic) return 'Battle' as AvailableStates
