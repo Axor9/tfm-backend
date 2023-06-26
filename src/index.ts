@@ -24,4 +24,4 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 })
 
-export { web3, stateMachine }
+export { web3, stateMachine, app }
