@@ -30,4 +30,5 @@ export type StateMachine = {
   synchronizeState(contract: string): Promise<void>
   getCurrentState(): Promise<StateType>
   getStates(): Promise<StateType[]>
+  finishGame(): Promise<void>
 }
